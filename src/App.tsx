@@ -1,9 +1,11 @@
 import { ReactElement, useState } from "react";
-import Home from "./components/Home";
+import Main from "./components/Main";
+import Windows from "./components/Windows";
+import "../styles.css"
 import "./index.css";
 
 const App = (): ReactElement => {
-  return <Home />;
+  return <Windows />;
 };
 
 export default App;

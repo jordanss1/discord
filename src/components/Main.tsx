@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-const Home = (): ReactElement => {
+const Main = (): ReactElement => {
   return (
     <div className="bg-gray-700 text-white min-h-screen flex items-center justify-center">
       <div className="max-w-lg">
@@ -42,4 +42,4 @@ const Home = (): ReactElement => {
   );
 };
 
-export default Home;
+export default Main;

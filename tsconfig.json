@@ -19,5 +19,5 @@
 
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src", "./postcss.config.ts", "./tailwind.config.ts"]
 }
