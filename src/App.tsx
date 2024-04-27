@@ -1,11 +1,16 @@
 import { ReactElement, useState } from "react";
-import Main from "./components/Main";
-import Windows from "./components/Windows";
-import "../styles.css"
+import "../styles.css";
+import ServerLinks from "./components/servers/ServerLinks";
+import ServerRoutes from "./components/servers/ServerRoutes";
 import "./index.css";
 
 const App = (): ReactElement => {
-  return <Windows />;
+  return (
+    <div className="flex text-gray-100 h-screen">
+      <ServerLinks />
+      <ServerRoutes />
+    </div>
+  );
 };
 
 export default App;
