@@ -1,7 +1,7 @@
-import { ReactElement, useState } from "react";
+import { ReactElement } from "react";
 import "../styles.css";
-import ServerLinks from "./components/servers/ServerLinks";
 import ServerRoutes from "./components/servers/ServerRoutes";
+import ServerLinks from "./components/servers/ServerWindow";
 import "./index.css";
 
 const App = (): ReactElement => {
