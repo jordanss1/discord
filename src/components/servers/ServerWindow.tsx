@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { DiscordIcon } from "../icons/icons";
+import * as Icons from "../icons/icons";
 import { servers } from "./ServerRoutes";
 
 type ServerButtonPropsType = {
@@ -12,7 +12,7 @@ const ServerWindow = (): ReactElement => {
   return (
     <div className="bg-gray-900 p-3 flex flex-col gap-2 overflow-y-scroll">
       <ServerButton route="/">
-        <DiscordIcon className="w-7 h-5" />
+        <Icons.Discord className="w-7 h-5" />
       </ServerButton>
       <hr className="border-t-white/[.06] border-t-2 rounded mx-2" />
       {servers.map(({ id, img }) => (

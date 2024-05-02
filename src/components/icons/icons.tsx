@@ -1,4 +1,4 @@
-export function DiscordIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+export function Discord(props: React.HTMLAttributes<SVGSVGElement>) {
   return (
     <svg aria-hidden="false" viewBox="0 0 28 20" {...props}>
       <path
@@ -9,7 +9,7 @@ export function DiscordIcon(props: React.HTMLAttributes<SVGSVGElement>) {
   );
 }
 
-export function VerifiedIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+export function Verified(props: React.HTMLAttributes<SVGSVGElement>) {
   return (
     <svg
       aria-label="Verified"
@@ -26,7 +26,7 @@ export function VerifiedIcon(props: React.HTMLAttributes<SVGSVGElement>) {
   );
 }
 
-export function CheckIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+export function Check(props: React.HTMLAttributes<SVGSVGElement>) {
   return (
     <svg aria-hidden="false" viewBox="0 0 16 15.2" {...props}>
       <path
@@ -37,7 +37,7 @@ export function CheckIcon(props: React.HTMLAttributes<SVGSVGElement>) {
   );
 }
 
-export function ChevronIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+export function Chevron(props: React.HTMLAttributes<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 18 18" fill="none" {...props}>
       <path
@@ -48,7 +48,7 @@ export function ChevronIcon(props: React.HTMLAttributes<SVGSVGElement>) {
   );
 }
 
-export function BookIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+export function Book(props: React.HTMLAttributes<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 40 40" {...props}>
       <path
@@ -61,7 +61,7 @@ export function BookIcon(props: React.HTMLAttributes<SVGSVGElement>) {
   );
 }
 
-export function SpeakerphoneIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+export function Speakerphone(props: React.HTMLAttributes<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
       <path
@@ -72,7 +72,7 @@ export function SpeakerphoneIcon(props: React.HTMLAttributes<SVGSVGElement>) {
   );
 }
 
-export function ArrowComponent(props: React.HTMLAttributes<SVGSVGElement>) {
+export function Arrow(props: React.HTMLAttributes<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
       <path
@@ -85,7 +85,7 @@ export function ArrowComponent(props: React.HTMLAttributes<SVGSVGElement>) {
   );
 }
 
-export function AddPersonIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+export function AddPerson(props: React.HTMLAttributes<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 16 16" {...props}>
       <path
@@ -96,7 +96,7 @@ export function AddPersonIcon(props: React.HTMLAttributes<SVGSVGElement>) {
   );
 }
 
-export function HashtagIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+export function Hashtag(props: React.HTMLAttributes<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" {...props}>
       <path
