@@ -4,9 +4,9 @@ import Server from "./Server";
 import Home from "./home/Home";
 
 export const servers = [
-  { id: "tailwind", name: "Tailwind CSS", img: "tailwind.png" },
-  { id: "next", name: "Next", img: "next.png" },
-  { id: "mirage", name: "Mirage", img: "mirage.png" },
+  { id: 1, name: "Tailwind CSS", img: "tailwind.png" },
+  { id: 2, name: "Next", img: "next.png" },
+  { id: 3, name: "Mirage", img: "mirage.png" },
 ];
 
 const ServerRoutes = (): ReactElement => {
@@ -15,7 +15,8 @@ const ServerRoutes = (): ReactElement => {
       <Route path="/" element={<Home />} />
       {servers.map((server) => (
         <Route
-          path={`/servers/${server.id}`}
+          key={server.name}
+          path={`/servers/${server.id}/*`}
           element={<Server name={server.name} />}
         />
       ))}

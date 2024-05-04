@@ -1,8 +1,7 @@
 import { ReactElement } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import data from "../../../data.json";
 import * as Icons from "../icons/icons";
-import ServerChannels from "./ServerChannels";
 
 type ServerPropsType = {
   name: string;
@@ -20,9 +19,26 @@ const Server = ({ name }: ServerPropsType): ReactElement => {
           {name}
           <Icons.Chevron className="ml-auto w-[18px] h-[18px] opacity-80" />
         </button>
-        <div className="flex-1 space-y-[21px]  ml-[.1rem] mt-3 text-gray-300 w-full overflow-y-scroll font-medium">
+        <div className="flex-1 space-y-[21px]  ml-[.1rem] pt-3 text-gray-300 w-full overflow-y-scroll font-medium">
           {data["1"].categories.map(({ id, label, channels }) => (
-            <ServerChannels key={id} label={label} channels={channels} />
+            <div key={id} className="px-0.5">
+              {label && (
+                <button className="flex items-center gap-0.5 tracking-wide text-xs font-title uppercase">
+                  <Icons.Arrow className="w-3 h-3" />
+                  {label}
+                </button>
+              )}
+
+              {channels.map((channel) => {
+                channel = channel as ChannelLinkPropsType["channel"];
+
+                return (
+                  <div key={channel.id} className="space-y-0.5 mt-[5px]">
+                    <ChannelLink channel={channel} />
+                  </div>
+                );
+              })}
+            </div>
           ))}
         </div>
       </div>
@@ -30,7 +46,7 @@ const Server = ({ name }: ServerPropsType): ReactElement => {
         <div className="p-3 h-12 flex items-center shadow-sm">General</div>
         <div className="p-3 flex-1 ml-[.1rem] overflow-y-scroll space-y-4">
           {[...Array(40)].map((_, i) => (
-            <p>
+            <p key={i}>
               message {i} Lorem ipsum dolor sit amet consectetur, adipisicing
               elit. Perspiciatis porro magni quas esse eligendi ratione hic
               inventore id fuga quam. Minima voluptatem ad debitis? Nesciunt
@@ -45,35 +61,39 @@ const Server = ({ name }: ServerPropsType): ReactElement => {
 
 export default Server;
 
-type ServerChannelsPropsType = {
-  label: string;
-  channels: { id: number; label: string }[];
+type ChannelLinkPropsType = {
+  channel: {
+    id: number;
+    label: string;
+    icon?: keyof typeof Icons;
+  };
 };
 
-const ServerChannels = ({
-  label,
-  channels,
-}: ServerChannelsPropsType): ReactElement => {
-  return (
-    <div className="px-0.5">
-      {label && (
-        <button className="flex items-center gap-0.5 tracking-wide text-xs font-title uppercase">
-          <Icons.Arrow className="w-3 h-3" />
-          {label}
-        </button>
-      )}
+const ChannelLink = ({ channel }: ChannelLinkPropsType): ReactElement => {
+  const { state } = useLocation();
 
-      <div className="space-y-0.5 mt-[5px]">
-        {channels.map(({ id, label }) => (
-          <Link to="" key={id}>
-            <div className="flex group cursor-pointer select-none gap-1.5 rounded hover:bg-gray-550/[0.16] items-center py-1 px-2 mx-2  text-gray-300 hover:text-gray-100">
-              <Icons.Hashtag className="w-5 h-5 text-gray-400" />
-              {label}
-              <Icons.AddPerson className="w-4 h-4 ml-auto text-gray-200 hover:text-gray-100 opacity-0 group-hover:opacity-100" />
-            </div>
-          </Link>
-        ))}
+  const { label, icon, id } = channel;
+
+  const active = state.channel === id;
+
+  let Icon = icon ? Icons[icon] : Icons.Hashtag;
+
+  return (
+    <Link
+      state={{ server: state.server, channel: id }}
+      to={`/servers/${state.server}/channels/${id}`}
+    >
+      <div
+        className={`${
+          active
+            ? "text-white bg-gray-550/[.32]"
+            : "text-gray-300 hover:text-gray-100 hover:bg-gray-550/[0.16]"
+        } flex group cursor-pointer select-none gap-1.5 rounded  items-center py-1 px-2 mx-2 `}
+      >
+        <Icon className="w-5 h-5 text-gray-400" />
+        {label}
+        <Icons.AddPerson className="w-4 h-4 ml-auto text-gray-200 hover:text-gray-100 opacity-0 group-hover:opacity-100" />
       </div>
-    </div>
+    </Link>
   );
 };
