@@ -13,6 +13,7 @@ const ServerRoutes = (): ReactElement => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+
       {servers.map((server) => (
         <Route
           key={server.name}

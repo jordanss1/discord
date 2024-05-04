@@ -19,11 +19,11 @@ const Server = ({ name }: ServerPropsType): ReactElement => {
           {name}
           <Icons.Chevron className="ml-auto w-[18px] h-[18px] opacity-80" />
         </button>
-        <div className="flex-1 space-y-[21px]  ml-[.1rem] pt-3 text-gray-300 w-full overflow-y-scroll font-medium">
+        <div className="flex-1 space-y-[21px] pt-3 text-gray-300 w-full overflow-y-scroll font-medium">
           {data["1"].categories.map(({ id, label, channels }) => (
             <div key={id} className="px-0.5">
               {label && (
-                <button className="flex items-center gap-0.5 tracking-wide text-xs font-title uppercase">
+                <button className="flex w-full items-center gap-0.5 tracking-wide hover:text-gray-100 text-xs font-title uppercase">
                   <Icons.Arrow className="w-3 h-3" />
                   {label}
                 </button>
@@ -65,6 +65,7 @@ type ChannelLinkPropsType = {
   channel: {
     id: number;
     label: string;
+    unread: boolean;
     icon?: keyof typeof Icons;
   };
 };
@@ -74,9 +75,23 @@ const ChannelLink = ({ channel }: ChannelLinkPropsType): ReactElement => {
 
   const { label, icon, id } = channel;
 
+  let Icon = icon ? Icons[icon] : Icons.Hashtag;
+
   const active = state.channel === id;
 
-  let Icon = icon ? Icons[icon] : Icons.Hashtag;
+  const channelState = active
+    ? "active"
+    : channel.unread
+    ? "inactiveUnread"
+    : "inactiveRead";
+
+  let classes = {
+    active: "text-white bg-gray-550/[.32]",
+    inactiveUnread:
+      "text-white hover:text-gray-100 active:bg-gray-550/[.24] hover:bg-gray-550/[0.16]",
+    inactiveRead:
+      "text-gray-300 hover:text-gray-100 active:bg-gray-550/[.24] hover:bg-gray-550/[0.16]",
+  };
 
   return (
     <Link
@@ -84,12 +99,11 @@ const ChannelLink = ({ channel }: ChannelLinkPropsType): ReactElement => {
       to={`/servers/${state.server}/channels/${id}`}
     >
       <div
-        className={`${
-          active
-            ? "text-white bg-gray-550/[.32]"
-            : "text-gray-300 hover:text-gray-100 hover:bg-gray-550/[0.16]"
-        } flex group cursor-pointer select-none gap-1.5 rounded  items-center py-1 px-2 mx-2 `}
+        className={`${classes[channelState]} relative flex group cursor-pointer select-none gap-1.5 rounded items-center py-1 px-2 mx-2 `}
       >
+        {channelState === "inactiveUnread" && (
+          <div className="absolute bg-white rounded-r-full -left-2.5 w-1 h-2" />
+        )}
         <Icon className="w-5 h-5 text-gray-400" />
         {label}
         <Icons.AddPerson className="w-4 h-4 ml-auto text-gray-200 hover:text-gray-100 opacity-0 group-hover:opacity-100" />

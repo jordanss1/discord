@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import "../styles.css";
 import ServerRoutes from "./components/servers/ServerRoutes";
-import ServerLinks from "./components/servers/ServerWindow";
+import ServerLinks from "./components/servers/ServerLinks";
 import "./index.css";
 
 const App = (): ReactElement => {
