@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { data } from "../../../data";
 import * as Icons from "../icons/icons";
 import { servers } from "./ServerRoutes";
 
@@ -30,12 +31,16 @@ const ServerButton = ({
 }: ServerButtonPropsType): ReactElement => {
   const { state } = useLocation();
 
-  const route = id ? `/servers/${id}` : "/";
+  const firstChannel = data[id as keyof typeof data]?.categories
+    .map((c) => c.channels)
+    .flat()[0].id;
+
+  const route = id ? `/servers/${id}/channels/${firstChannel}` : "/";
 
   const locationState = state ? state : { server: 0 };
 
   return (
-    <Link state={{ server: id }} to={route}>
+    <Link state={{ server: id, channel: firstChannel }} to={route}>
       <div className="relative block group">
         <div className="absolute flex -left-3 h-full items-center">
           <div

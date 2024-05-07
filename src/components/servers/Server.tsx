@@ -81,7 +81,9 @@ const Server = ({ name }: ServerPropsType): ReactElement => {
         <div className="flex h-12 px-2 items-center shadow-sm">
           <div className="flex items-center">
             <Icons.Hashtag className="mx-2 h-6 w-6 font-semibold text-gray-400" />
-            <span className="font-title mr-2 text-white">{channel?.label}</span>
+            <span className="font-title mr-2 whitespace-nowrap text-white">
+              {channel?.label}
+            </span>
           </div>
 
           {channel?.description && (
@@ -106,6 +108,16 @@ const Server = ({ name }: ServerPropsType): ReactElement => {
             <button className="text-gray-200 hover:text-gray-100">
               <Icons.People className="mx-2 h-6 w-6" />
             </button>
+            <div className="mx-2 relative">
+              <input
+                placeholder="Search"
+                type="text"
+                className="bg-gray-900 border-none h-6 w-36 rounded text-sm font-medium placeholder:text-gray-400 px-1.5"
+              />
+              <div className="absolute inset-y-0 right-0 text-gray-400 flex items-center mr-1">
+                <Icons.Spyglass className="w-4 h-4" />
+              </div>
+            </div>
             <button className="text-gray-200 hover:text-gray-100">
               <Icons.Inbox className="mx-2 h-6 w-6" />
             </button>
@@ -115,14 +127,15 @@ const Server = ({ name }: ServerPropsType): ReactElement => {
           </div>
         </div>
 
-        <div className="p-3 flex-1 ml-[.1rem] overflow-y-scroll space-y-4">
-          {[...Array(40)].map((_, i) => (
-            <p key={i}>
-              message {i} Lorem ipsum dolor sit amet consectetur, adipisicing
-              elit. Perspiciatis porro magni quas esse eligendi ratione hic
-              inventore id fuga quam. Minima voluptatem ad debitis? Nesciunt
-              laboriosam dicta similique harum ex.
-            </p>
+        <div className="flex-1 overflow-y-scroll">
+          {channel.messages.map((message, i) => (
+            <div key={i}>
+              {i === 0 || message.user !== channel.messages[i - 1].user ? (
+                <MessageWithUser message={message} />
+              ) : (
+                <Message message={message.text} />
+              )}
+            </div>
           ))}
         </div>
       </div>
@@ -174,5 +187,42 @@ const ChannelLink = ({
         <Icons.AddPerson className="w-4 h-4 ml-auto text-gray-200 hover:text-gray-100 opacity-0 group-hover:opacity-100" />
       </div>
     </Link>
+  );
+};
+
+type MessageWithUserPropsType = {
+  message: ChannelType["messages"][number];
+};
+
+const MessageWithUser = ({
+  message,
+}: MessageWithUserPropsType): ReactElement => {
+  return (
+    <div className="leading-[22px] mt-[17px] flex py-0.5 pl-4 pr-16 hover:bg-gray-950/[0.07]">
+      <img
+        className="mr-4 mt-0.5 h-10 w-10 rounded-full"
+        src={message.avatarUrl}
+        alt=""
+      />
+      <div>
+        <p className="flex items-baseline">
+          <span className="mr-2 font-medium text-green-400">
+            {message.user}
+          </span>
+          <span className="text-xs font-medium text-gray-400">
+            {message.date}
+          </span>
+        </p>
+        <p className="text-gray-100">{message.text}</p>
+      </div>
+    </div>
+  );
+};
+
+const Message = ({ message }: { message: string }): ReactElement => {
+  return (
+    <div className="py-0.5 pl-4 pr-16 leading-[22px] hover:bg-gray-950/[0.07]">
+      <p className="pl-14 text-gray-100">{message}</p>
+    </div>
   );
 };
