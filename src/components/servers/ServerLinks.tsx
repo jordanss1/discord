@@ -2,7 +2,6 @@ import { ReactElement } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { data } from "../../../data";
 import * as Icons from "../icons/icons";
-import { servers } from "./ServerRoutes";
 
 type ServerButtonPropsType = {
   id?: number;
@@ -11,16 +10,18 @@ type ServerButtonPropsType = {
 
 const ServerLinks = (): ReactElement => {
   return (
-    <div className="bg-gray-900 p-3 flex flex-col gap-2 overflow-y-scroll">
-      <ServerButton id={0}>
-        <Icons.Discord className="w-7 h-5" />
-      </ServerButton>
-      <hr className="border-t-white/[.06] border-t-2 rounded mx-2" />
-      {servers.map(({ id, img }) => (
-        <ServerButton id={id} key={id}>
-          <img src={`/servers/${img}`} alt="" />
+    <div className="hidden md:block bg-gray-900">
+      <div className=" p-3 flex flex-col gap-2 overflow-y-scroll">
+        <ServerButton id={0}>
+          <Icons.Discord className="w-7 h-5" />
         </ServerButton>
-      ))}
+        <hr className="border-t-white/[.06] border-t-2 rounded mx-2" />
+        {data.map(({ id, img }) => (
+          <ServerButton id={id} key={id}>
+            <img src={`/servers/${img}`} alt="" />
+          </ServerButton>
+        ))}
+      </div>
     </div>
   );
 };
@@ -31,8 +32,9 @@ const ServerButton = ({
 }: ServerButtonPropsType): ReactElement => {
   const { state } = useLocation();
 
-  const firstChannel = data[id as keyof typeof data]?.categories
-    .map((c) => c.channels)
+  const firstChannel = data
+    .find((server) => id === server.id)
+    ?.categories.map((c) => c.channels)
     .flat()[0].id;
 
   const route = id ? `/servers/${id}/channels/${firstChannel}` : "/";

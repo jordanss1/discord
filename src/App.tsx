@@ -7,7 +7,7 @@ import "./index.css";
 const App = (): ReactElement => {
   return (
     <div className="flex text-gray-100 h-screen">
-      <ServerLinks />
+      <ServerLinks /> 
       <ServerRoutes />
     </div>
   );

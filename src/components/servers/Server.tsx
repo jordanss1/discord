@@ -3,16 +3,13 @@ import { Link, useLocation } from "react-router-dom";
 import { ChannelType, data } from "../../../data";
 import * as Icons from "../icons/icons";
 
-type ServerPropsType = {
-  name: string;
-};
-
-const Server = ({ name }: ServerPropsType): ReactElement => {
+const Server = (): ReactElement => {
   const [closedCategories, setClosedCategories] = useState<number[]>([]);
   const { state } = useLocation();
 
-  let server = data[state ? (state.server as keyof typeof data) : 1];
-  let channel = server.categories
+  let server = data.find((server) => server.id === state.server);
+
+  let channel = server?.categories
     .map((c) => c.channels)
     .flat()
     .find((c) => (state.channel ? c.id === state.channel : 1)) as ChannelType;
@@ -27,18 +24,18 @@ const Server = ({ name }: ServerPropsType): ReactElement => {
 
   return (
     <>
-      <div className="bg-gray-800 flex flex-col w-60">
+      <div className="bg-gray-800 hidden   md:flex flex-col w-60">
         <button className="px-4 h-12 flex items-center gap-1 shadow-sm font-title text-white text-[15px] hover:bg-gray-550/[0.16] transition">
           <div className="relative w-4 h-4">
             <Icons.Verified className="w-4 h-4 absolute text-gray-550" />
             <Icons.Check className="w-4 h-4 absolute" />
           </div>
-          {name}
+          {server?.label}
           <Icons.Chevron className="ml-auto w-[18px] h-[18px] opacity-80" />
         </button>
         <div className="flex-1 space-y-[21px] pt-3 text-gray-300 w-full overflow-y-scroll font-medium">
-          {data[state.server as keyof typeof data].categories.map(
-            ({ id, label, channels }) => {
+          {server &&
+            server.categories.map(({ id, label, channels }) => {
               const channelList = channels as ChannelType[];
 
               return (
@@ -73,12 +70,11 @@ const Server = ({ name }: ServerPropsType): ReactElement => {
                   })}
                 </div>
               );
-            }
-          )}
+            })}
         </div>
       </div>
       <div className="bg-gray-700 flex flex-shrink min-w-0 flex-col flex-1">
-        <div className="flex h-12 px-2 items-center shadow-sm">
+        <div className="flex h-12 overflow-hidden px-2 items-center shadow-sm">
           <div className="flex items-center">
             <Icons.Hashtag className="mx-2 h-6 w-6 font-semibold text-gray-400" />
             <span className="font-title mr-2 whitespace-nowrap text-white">
@@ -88,14 +84,16 @@ const Server = ({ name }: ServerPropsType): ReactElement => {
 
           {channel?.description && (
             <>
-              <div className="w-px h-6 bg-white/[.06] mx-2" />
-              <div className="text-sm truncate font-normal text-gray-200 mx-2">
+              <div className="hidden md:block w-px h-6 bg-white/[.06] mx-2" />
+              <div className="hidden md:block text-sm truncate font-normal text-gray-200 mx-2">
                 {channel.description}
               </div>
             </>
           )}
 
-          <div className="ml-auto flex items-center">
+          {/* Desktop buttons */}
+
+          <div className="ml-auto hidden md:flex items-center">
             <button className="text-gray-200 hover:text-gray-100">
               <Icons.HashtagWithSpeechBubble className="mx-2 h-6 w-6" />
             </button>
@@ -125,18 +123,30 @@ const Server = ({ name }: ServerPropsType): ReactElement => {
               <Icons.QuestionCircle className="mx-2 h-6 w-6" />
             </button>
           </div>
+
+          {/* Mobile buttons */}
+
+          <div className="ml-auto md:hidden flex items-center">
+            <button className="text-gray-200 hover:text-gray-100">
+              <Icons.HashtagWithSpeechBubble className="mx-2 h-6 w-6" />
+            </button>
+            <button className="text-gray-200 hover:text-gray-100">
+              <Icons.People className="mx-2 h-6 w-6" />
+            </button>
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-scroll">
-          {channel.messages.map((message, i) => (
-            <div key={i}>
-              {i === 0 || message.user !== channel.messages[i - 1].user ? (
-                <MessageWithUser message={message} />
-              ) : (
-                <Message message={message.text} />
-              )}
-            </div>
-          ))}
+          {channel &&
+            channel.messages.map((message, i) => (
+              <div key={i}>
+                {i === 0 || message.user !== channel.messages[i - 1].user ? (
+                  <MessageWithUser message={message} />
+                ) : (
+                  <Message message={message.text} />
+                )}
+              </div>
+            ))}
         </div>
       </div>
     </>
